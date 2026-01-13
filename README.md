@@ -390,34 +390,33 @@ Semua pengujian dilakukan menggunakan **GraphQL Playground / Postman** untuk mem
 
 Semua test berhasil dijalankan dan menunjukkan bahwa sistem GraphQL terhubung dengan baik ke database MySQL.
 
-# 📂 Struktur Folder
-
-Berikut adalah struktur folder project **BLINKStore** sesuai dengan implementasi yang digunakan:
+# 📁 Struktur Folder Project
 
 IAE-BLINKStore/
 ├── frontend/
-│ ├── index.html
-│ └── images/
+│   ├── index.html
+│   └── images/
 │
 ├── user-service/
-│ ├── server.js
-│ ├── schema.graphql
-│ ├── package.json
-│ └── Dockerfile
+│   ├── server.js
+│   ├── schema.graphql
+│   ├── package.json
+│   └── Dockerfile
 │
 ├── merchandise-service/
-│ ├── server.js
-│ ├── schema.graphql
-│ └── Dockerfile
+│   ├── server.js
+│   ├── schema.graphql
+│   └── Dockerfile
 │
 ├── order-service/
-│ ├── server.js
-│ ├── schema.graphql
-│ └── Dockerfile
+│   ├── server.js
+│   ├── schema.graphql
+│   └── Dockerfile
 │
 ├── docker-compose.yml
 ├── .gitignore
 └── README.md
+
 
 
 Penjelasan singkat:
