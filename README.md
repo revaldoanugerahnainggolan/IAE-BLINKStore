@@ -392,6 +392,7 @@ Semua test berhasil dijalankan dan menunjukkan bahwa sistem GraphQL terhubung de
 
 # 📁 Struktur Folder Project
 
+```
 IAE-BLINKStore/
 ├── frontend/
 │   ├── index.html
@@ -416,6 +417,7 @@ IAE-BLINKStore/
 ├── docker-compose.yml
 ├── .gitignore
 └── README.md
+```
 
 
 
