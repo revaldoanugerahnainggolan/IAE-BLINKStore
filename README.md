@@ -345,7 +345,7 @@ Semua pengujian dilakukan menggunakan **GraphQL Playground / Postman** untuk mem
 
 ---
 
-## 🔹 User Service – Port 4001
+# 🔹 User Service – Port 4001
 
 - Tambah User Jennie  
 - Tambah User Lisa  
@@ -360,7 +360,7 @@ Semua pengujian dilakukan menggunakan **GraphQL Playground / Postman** untuk mem
 
 ---
 
-## 🔹 Merchandise Service – Port 4002
+# 🔹 Merchandise Service – Port 4002
 
 - Tambah Hoodie  
 - Tambah Lightstick  
