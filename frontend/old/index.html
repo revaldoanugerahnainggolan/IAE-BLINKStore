@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BLINKStore</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>BLINKStore - BLACKPINK Merchandise</h1>
+
+  <!-- Form tambah user -->
+  <h2>Add User</h2>
+  <input id="userName" placeholder="Name">
+  <input id="userEmail" placeholder="Email">
+  <input id="userPhone" placeholder="Phone">
+  <input id="userAddress" placeholder="Address">
+  <br>
+  <button onclick="addUser()">Add User</button>
+
+  <!-- Form tambah merchandise -->
+  <h2>Add Merchandise</h2>
+  <input id="merchName" placeholder="Merch Name">
+  <input id="merchCategory" placeholder="Category">
+  <input id="merchPrice" placeholder="Price">
+  <input id="merchStock" placeholder="Stock">
+  <br>
+  <button onclick="addMerch()">Add Merchandise</button>
+
+  <!-- Form buat order -->
+  <h2>Create Order</h2>
+  <input id="orderUser" placeholder="User ID">
+  <input id="orderMerch" placeholder="Merch ID">
+  <input id="orderQty" placeholder="Quantity">
+  <br>
+  <button onclick="createOrder()">Order</button>
+
+  <!-- Output hasil -->
+  <pre id="result"></pre>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

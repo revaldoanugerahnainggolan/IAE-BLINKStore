@@ -1,0 +1,43 @@
+# ==================================================
+# BLINKStore - BLACKPINK Merchandise Ordering System
+# User Service - GraphQL Schema
+# Fungsi: Mengelola data pengguna / pembeli
+# Port: 4001
+# ==================================================
+
+# Data utama pengguna
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  phone: String!
+  address: String
+  createdAt: String
+}
+
+# Query data pengguna
+type Query {
+  getUsers: [User]
+  getUserById(id: ID!): User
+  getUserByEmail(email: String!): User
+}
+
+# Mutation data pengguna
+type Mutation {
+  addUser(
+    name: String!
+    email: String!
+    phone: String!
+    address: String
+  ): User
+
+  updateUser(
+    id: ID!
+    name: String
+    email: String
+    phone: String
+    address: String
+  ): User
+
+  deleteUser(id: ID!): Boolean
+}

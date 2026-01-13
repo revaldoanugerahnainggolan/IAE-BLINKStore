@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Merchandise</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="card wide">
+    <h2>Available Merchandise</h2>
+    <div id="merchList" class="grid"></div>
+  </div>
+
+  <div class="card">
+    <h2>Create Order</h2>
+    <input id="userId" placeholder="User ID">
+    <input id="merchId" placeholder="Merch ID (auto)" readonly>
+    <input id="quantity" placeholder="Quantity">
+    <button onclick="createOrder()">Order</button>
+  </div>
+
+<script>
+const MERCH_URL = "http://localhost:4002/graphql";
+const ORDER_URL = "http://localhost:4003/graphql";
+
+async function loadMerch() {
+  const query = {
+    query: `query {
+      getMerchandises {
+        id
+        name
+        category
+        price
+        stock
+      }
+    }`
+  };
+
+  const res = await fetch(MERCH_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(query)
+  });
+
+  const data = await res.json();
+  const list = document.getElementById("merchList");
+
+  data.data.getMerchandises.forEach(m => {
+    const div = document.createElement("div");
+    div.className = "merch-card";
+    div.innerHTML = `
+      <h3>${m.name}</h3>
+      <p>${m.category}</p>
+      <p>Rp ${m.price}</p>
+      <p>Stock: ${m.stock}</p>
+      <button onclick="selectMerch(${m.id})">Select</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function selectMerch(id) {
+  document.getElementById("merchId").value = id;
+}
+
+async function createOrder() {
+  const userId = document.getElementById("userId").value;
+  const merchId = document.getElementById("merchId").value;
+  const quantity = document.getElementById("quantity").value;
+
+  const mutation = {
+    query: `mutation {
+      createOrder(
+        userId: "${userId}"
+        merchandiseId: "${merchId}"
+        quantity: ${quantity}
+        price: 350000
+      ) {
+        id
+        totalPrice
+        orderStatus
+      }
+    }`
+  };
+
+  await fetch(ORDER_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(mutation)
+  });
+
+  alert("Order berhasil!");
+}
+
+loadMerch();
+</script>
+
+</body>
+</html>

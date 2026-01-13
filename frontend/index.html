@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BLINKStore</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("images/blackpink.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      color: hotpink;
+      text-align: center;
+      text-shadow: 0 0 10px black;
+    }
+
+    .page {
+      display: none;
+      max-width: 900px;
+      margin: auto;
+      background: rgba(0,0,0,0.85);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px hotpink;
+      text-align: center;
+    }
+
+    .active {
+      display: block;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    button {
+      background: hotpink;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .nav {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .nav button {
+      width: auto;
+      margin: 5px;
+    }
+
+    .summary, .card {
+      background: #111;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .bias-grid, .merch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .bias-card, .merch-card {
+      text-align: center;
+      cursor: pointer;
+      border: 2px solid hotpink;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      transition: 0.3s;
+    }
+
+    .bias-card:hover, .merch-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px hotpink;
+    }
+
+    .bias-card img, .merch-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .bias-card p, .merch-card p {
+      padding: 10px;
+      font-weight: bold;
+      color: hotpink;
+    }
+
+    .danger {
+      background: crimson;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🖤💗 BLINKStore 💗🖤</h1>
+
+<div class="nav">
+  <button onclick="goToPage(0)">Welcome</button>
+  <button onclick="goToPage(1)">User</button>
+  <button onclick="goToPage(2)">Bias</button>
+  <button onclick="goToPage(3)">Merch</button>
+  <button onclick="goToPage(4)">Order</button>
+  <button onclick="goToPage(45)">Confirm</button>
+  <button onclick="goToPage(5)">Invoice</button>
+</div>
+
+<div id="page0" class="page active">
+  <h2>Halo BLINK 💗</h2>
+  <p>Selamat datang di BLINKStore!</p>
+  <button onclick="goToPage(1)">Mulai Belanja</button>
+</div>
+
+<div id="page1" class="page">
+  <h2>Data User</h2>
+  <input id="userName" placeholder="Nama Lengkap">
+  <input id="userEmail" placeholder="Email">
+  <input id="userPhone" placeholder="No HP">
+  <input id="userAddress" placeholder="Alamat">
+  <button onclick="saveUser()">Simpan User</button>
+  <div id="userSummary" class="summary"></div>
+</div>
+
+<div id="page2" class="page">
+  <h2>Pilih Bias</h2>
+  <div class="bias-grid">
+    <div class="bias-card" onclick="chooseBias('Rose')"><img src="images/rose.jpg"><p>Rose</p></div>
+    <div class="bias-card" onclick="chooseBias('Jisoo')"><img src="images/jisoo.jpg"><p>Jisoo</p></div>
+    <div class="bias-card" onclick="chooseBias('Jennie')"><img src="images/jennie.jpg"><p>Jennie</p></div>
+    <div class="bias-card" onclick="chooseBias('Lisa')"><img src="images/lisa.jpg"><p>Lisa</p></div>
+  </div>
+  <div id="biasSummary" class="summary"></div>
+</div>
+
+<div id="page3" class="page">
+  <h2>Pilih Merchandise</h2>
+  <div id="merchList" class="merch-grid"></div>
+  <div id="selectedMerchDiv" class="summary"></div>
+</div>
+
+<div id="page4" class="page">
+  <h2>Buat Order</h2>
+  <input type="number" id="quantity" placeholder="Jumlah">
+  <button onclick="addToCart()">Tambah ke Pesanan</button>
+  <button onclick="goToPage(45)">Konfirmasi Pesanan</button>
+  <button class="danger" onclick="cancelOrder()">Batalkan Pesanan</button>
+</div>
+
+<div id="page45" class="page">
+  <h2>Konfirmasi Pesanan</h2>
+  <div id="confirmList" class="merch-grid"></div>
+  <button onclick="goToPage(5)">Lanjut ke Invoice</button>
+</div>
+
+<div id="page5" class="page">
+  <h2>Invoice</h2>
+  <div id="invoice" class="card"></div>
+  <button onclick="goToPage(6)">Selesai</button>
+</div>
+
+<div id="page6" class="page">
+  <h2>Terima Kasih 💖</h2>
+  <p>Pesanan kamu sedang diproses</p>
+  <button onclick="goToPage(0)">Selesai</button>
+</div>
+
+<script>
+let user = {}, bias = "", selectedMerch = {}, orders = [];
+
+/* ======================
+   NAVIGATION
+====================== */
+function goToPage(p) {
+  document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
+  document.getElementById("page" + p).classList.add("active");
+  if (p === 45) renderConfirm();
+  if (p === 5) updateInvoice();
+}
+
+/* ======================
+   SAVE USER → GRAPHQL
+====================== */
+function saveUser() {
+  const name = userName.value;
+  const email = userEmail.value;
+  const phone = userPhone.value;
+  const address = userAddress.value;
+
+  if (!name || !email || !phone || !address) {
+    alert("Lengkapi data!");
+    return;
+  }
+
+  fetch("http://localhost:4001/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+        mutation {
+          addUser(
+            name: "${name}",
+            email: "${email}",
+            phone: "${phone}",
+            address: "${address}"
+          ) {
+            id
+            name
+          }
+        }
+      `
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("User saved:", data);
+
+    user = { name, email, phone, address };
+    userSummary.innerHTML = `<p>${name}</p><p>${address}</p>`;
+    goToPage(2);
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Gagal menyimpan user ke database");
+  });
+}
+
+/* ======================
+   BIAS
+====================== */
+function chooseBias(name) {
+  bias = name;
+  biasSummary.innerHTML = `<p>Bias: ${bias}</p>`;
+  loadMerch();
+  goToPage(3);
+}
+
+/* ======================
+   LOAD MERCH → GRAPHQL
+====================== */
+function loadMerch() {
+  fetch("http://localhost:4002/graphql", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: `
+        query {
+          getMerchandises {
+            id
+            name
+            price
+            stock
+            image
+          }
+        }
+      `
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const merchData = data.data.getMerchandises;
+    merchList.innerHTML = "";
+
+    merchData.forEach(m => {
+      merchList.innerHTML += `
+        <div class="merch-card" onclick="selectMerch(${m.id}, '${m.name}', ${m.price}, ${m.stock}, '${m.image}')">
+          <img src="${m.image}">
+          <p>${m.name}</p>
+          <p>Rp ${m.price}</p>
+          <p>Stok: ${m.stock}</p>
+        </div>`;
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Gagal mengambil data merchandise");
+  });
+}
+
+function selectMerch(id, name, price, stock, img) {
+  selectedMerch = { id, name, price, stock, img };
+  selectedMerchDiv.innerHTML = `<p>${name}</p><p>Rp ${price}</p>`;
+  goToPage(4);
+}
+
+/* ======================
+   ORDER (LOCAL)
+====================== */
+function addToCart() {
+  const qty = Number(quantity.value);
+  if (!qty || qty <= 0) return alert("Masukkan jumlah!");
+  if (qty > selectedMerch.stock) return alert("Stok tidak cukup!");
+
+  orders.push({ ...selectedMerch, qty, total: qty * selectedMerch.price });
+  quantity.value = "";
+  renderConfirm();
+  goToPage(45);
+}
+
+function renderConfirm() {
+  confirmList.innerHTML = "";
+  orders.forEach((o, i) => {
+    confirmList.innerHTML += `
+      <div class="merch-card">
+        <img src="${o.img}">
+        <p>${o.name}</p>
+        <p>Qty: ${o.qty}</p>
+        <p>Subtotal: Rp ${o.total}</p>
+        <button onclick="editQty(${i})">✏️ Edit</button>
+        <button class="danger" onclick="deleteItem(${i})">🗑️ Hapus</button>
+      </div>`;
+  });
+}
+
+function editQty(i) {
+  const newQty = prompt("Jumlah baru:", orders[i].qty);
+  if (!newQty || newQty <= 0) return;
+  orders[i].qty = Number(newQty);
+  orders[i].total = orders[i].qty * orders[i].price;
+  renderConfirm();
+}
+
+function deleteItem(i) {
+  orders.splice(i, 1);
+  renderConfirm();
+}
+
+function updateInvoice() {
+  let total = 0, list = "";
+  orders.forEach((o, i) => {
+    total += o.total;
+    list += `<p>${i+1}. ${o.name} (${o.qty}x) = Rp ${o.total}</p>`;
+  });
+
+  invoice.innerHTML = `
+    <p>${user.name}</p>
+    <p>${user.address}</p>
+    <p>Bias: ${bias}</p>
+    <hr>${list}<hr>
+    <h3>Total: Rp ${total}</h3>`;
+}
+
+function cancelOrder() {
+  orders = [];
+  goToPage(3);
+}
+</script>
+
+</body>
+</html>

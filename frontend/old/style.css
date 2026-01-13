@@ -1,0 +1,30 @@
+.wide {
+  width: 800px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.merch-card {
+  border: 1px solid hotpink;
+  padding: 15px;
+  border-radius: 10px;
+  background: black;
+  box-shadow: 0 0 10px pink;
+}
+
+.merch-card h3 {
+  color: hotpink;
+}
+
+.merch-card button {
+  margin-top: 10px;
+  background: hotpink;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}

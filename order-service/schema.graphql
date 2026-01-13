@@ -1,0 +1,44 @@
+# ==================================================
+# BLINKStore - BLACKPINK Merchandise Ordering System
+# Order Service - GraphQL Schema
+# Fungsi: Mengelola pemesanan merchandise
+# Port: 4003
+# ==================================================
+
+# Data utama pesanan
+type Order {
+  id: ID!
+  userId: ID!
+  userName: String!
+  merchandiseId: ID!
+  merchName: String!
+  quantity: Int!
+  totalPrice: Int!
+  orderStatus: String!
+  createdAt: String
+}
+
+# Query untuk mengambil data pesanan
+type Query {
+  getOrders: [Order]
+  getOrderById(id: ID!): Order
+  getOrdersByUser(userId: ID!): [Order]
+  getOrdersByStatus(status: String!): [Order]
+}
+
+# Mutation untuk mengelola pesanan
+type Mutation {
+  createOrder(
+    userId: ID!
+    merchandiseId: ID!
+    quantity: Int!
+    price: Int!
+  ): Order
+
+  updateOrderStatus(
+    id: ID!
+    orderStatus: String!
+  ): Order
+
+  cancelOrder(id: ID!): Boolean
+}
