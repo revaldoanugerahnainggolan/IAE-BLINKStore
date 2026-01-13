@@ -394,37 +394,29 @@ Semua test berhasil dijalankan dan menunjukkan bahwa sistem GraphQL terhubung de
 
 Berikut adalah struktur folder project **BLINKStore** sesuai dengan implementasi yang digunakan:
 
-IAE-BLINKSTORE
+IAE-BLINKStore/
+├── frontend/
+│ ├── index.html
+│ └── images/
 │
-├── frontend
-│ ├── images
-│ ├── old
-│ └── index.html
-│
-├── merchandise-service
-│ ├── node_modules
-│ ├── Dockerfile.txt
-│ ├── package.json
-│ ├── package-lock.json
+├── user-service/
+│ ├── server.js
 │ ├── schema.graphql
-│ └── server.js
-│
-├── order-service
-│ ├── node_modules
-│ ├── Dockerfile.txt
 │ ├── package.json
-│ ├── package-lock.json
-│ ├── schema.graphql
-│ └── server.js
+│ └── Dockerfile
 │
-├── user-service
-│ ├── node_modules
-│ ├── Dockerfile
-│ ├── package.json
-│ ├── package-lock.json
+├── merchandise-service/
+│ ├── server.js
 │ ├── schema.graphql
-│ └── server.js
+│ └── Dockerfile
 │
+├── order-service/
+│ ├── server.js
+│ ├── schema.graphql
+│ └── Dockerfile
+│
+├── docker-compose.yml
+├── .gitignore
 └── README.md
 
 
