@@ -339,13 +339,14 @@ type Mutation {
   cancelOrder(id: ID!): Boolean
 }
 
+```
 # 🧪 Test GraphQL
 
 Semua pengujian dilakukan menggunakan **GraphQL Playground / Postman** untuk memastikan bahwa setiap Query dan Mutation berjalan dengan baik serta terhubung ke database MySQL.
 
 ---
 
-# 🔹 User Service – Port 4001
+## 🔹 User Service – Port 4001
 
 - Tambah User Jennie  
 - Tambah User Lisa  
@@ -360,7 +361,7 @@ Semua pengujian dilakukan menggunakan **GraphQL Playground / Postman** untuk mem
 
 ---
 
-# 🔹 Merchandise Service – Port 4002
+## 🔹 Merchandise Service – Port 4002
 
 - Tambah Hoodie  
 - Tambah Lightstick  
